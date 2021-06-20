@@ -2,7 +2,7 @@ function packContent(func){
 	var file_content = document.querySelector("#text").innerHTML;
 	var zip = new JSZip();
 	console.log(zip);
-	zip.file("content.txt",file_content);
+	zip.file("content",file_content);
 	var i = 0;
 	var dat = window.image_data;
 	console.log(zip);
