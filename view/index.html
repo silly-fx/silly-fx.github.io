@@ -1,0 +1,64 @@
+<meta charset="utf-8">
+<div id=monitor></div>
+<script src=../jszip.js></script>
+<script src=../jszip-utils.js></script>
+<script>
+var hash = location.hash.substring(1);
+var xhr = new XMLHttpRequest();
+xhr.open("GET","../files/fiction_content/" + hash + ".zip",true);
+xhr.responseType = "blob";
+xhr.send();
+xhr.onload = function(){
+	if (xhr.status >= 400){
+		document.querySelector("#monitor").innerHTML = "<center><h1>HTTP STATUS " + xhr.status + "<hr>FX Website</center>";
+	} else {
+		var zip = new JSZip();
+		zip.loadAsync(xhr.response).then(function(f){
+			document.querySelector("#monitor").innerHTML = "<center><div style='font-size:2.5em' id=title></div><br><b><div style='font-size:1.5em' id=p_title></div></b></center><hr><p id=content></p><hr><center><p id=memu></p></center>";
+			f.file("content").async("string").then(function(s){
+				document.querySelector("#content").innerHTML = s;
+			});
+			f.file("fiction_title").async("string").then(function(s){
+				document.querySelector("#title").innerHTML = s;
+				document.querySelector("#monitor").innerHTML += "<title>" + s + " | XF Website</title>";
+				var xhr2 = new XMLHttpRequest();
+				xhr2.open("GET","../files/" + s + ".json",true);
+				xhr2.responseType = "string";
+				xhr2.send();
+				xhr2.onload = function(){
+					if (xhr2.status >= 400){
+						document.querySelector("#memu").innerHTML = "错误：无法加载目录信息";
+					} else {
+						var info = JSON.parse(xhr2.response);
+						var index = 0;
+						var ptr = null;
+						while (index < info.length){
+							if (info[index] == hash){
+								ptr = index;
+								break;
+							};
+							index++;
+						};
+						if (ptr == null){
+							document.querySelector("#memu").innerHTML = "错误：未取得索引";
+						} else {
+							if (ptr){
+								document.querySelector("#memu").innerHTML += "<a href=#" + info[ptr-1] + " onclick=javascript:setTimeout(function(){location.reload();},200);>上一章</a>   ";
+							};
+							document.querySelector("#memu").innerHTML += "<a href=../fiction#" + s + ">目录</a>   ";
+							if (index != info.length-1){
+								document.querySelector("#memu").innerHTML += "<a href=#" + info[ptr+1] + " onclick=javascript:setTimeout(function(){location.reload();},200);>下一章</a>";
+							};
+						};
+						
+					};
+				};
+			});
+			f.file("p_title").async("string").then(function(s){
+				document.querySelector("#p_title").innerHTML = s;
+			});
+
+		});
+	};
+};
+</script>
