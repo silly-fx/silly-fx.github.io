@@ -4,7 +4,7 @@
 <p id=table>正在加载......</p>
 <script>
 history.pushState({"info":"Virtual URL"},"Index | XF Website",location.origin + "/suggest");
-var str = "<table><tr><td>序列</td><td>书名</td><td>作者</td><td>状态</td></tr>";
+var str = "<table border=1><tr><td>序列</td><td>书名</td><td>作者</td><td>状态</td></tr>";
 var xhr = new XMLHttpRequest();
 xhr.open("GET","files/fictions.json",true);
 xhr.send();
