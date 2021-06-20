@@ -1,0 +1,134 @@
+<meta charset="utf-8">
+<script src=jszip.js></script>
+<script src=jszip-utils.js></script>
+<script src=FileSaver.js></script>
+<script src=pack.js></script>
+<div id=editFunc>
+<button class=text-edit-button data-command=selectAll>Select All</button>
+<button class=text-edit-button data-command=copy>Copy</button>
+<button class=text-edit-button data-command=paste>Paste</button>
+<button class=text-edit-button data-command=cut>Cut</button>
+<button class=text-edit-button data-command=delete>Delete</button>
+<button class=text-edit-button data-command=undo>Undo</button>
+<button class=text-edit-button data-command=redo>Redo</button>
+<br>
+<button class=text-edit-button data-command=bold><b>B</b></button>
+<button class=text-edit-button data-command=italic><i>i</i></button>
+<button class=text-edit-button data-command=underline><u>U</u></button>
+<button class=text-edit-button data-command=strikeThrough><s>S</s></button>
+<br>
+<button class=text-edit-button data-command=null data-jscmd="setdocFC();">Set color</button><input type=color id=color_box_fontColor> <button class=text-edit-button data-command=null data-jscmd="setdocBC();">Set background color</button><input type=color id=color_box_bkgColor>
+<br>
+<button onclick=javascript:uploadfile();>Upload</button>
+</div>
+<div contenteditable id='text' style='height:75%;overflow:auto;z-index:-1'>
+<span style='filter:(opactity=70);opacity:0.7;'>开始编辑你的文档.....</span>. 
+</div>
+<div style='position:fixed;top:80%;left:0%;width:100%;z-index:1'>
+<p id=warning_box></p>
+<p id=s_letter_length></p>
+
+</div>
+<div style='z-index:10'><br><br><br>Import images <input type=file id=import_image accept=image/* multiple><p id=show_import_image></p></div>
+<script>
+document.querySelector("#text").onkeypress = function(e){
+	//Run some code;
+
+};
+setInterval(function(){
+	var s_l = document.querySelector("#text").innerHTML;
+	var s_l_l = s_l.length;
+	if (s_l_l >= 65535){
+		document.querySelector("#warning_box").innerHTML = "<font color=red>文档长度已达到字数限制</font>";
+		document.querySelector("#text").innerHTML = document.querySelector("#text").innerHTML.substring(0,60000);
+	} else {
+		document.querySelector("#warning_box").innerHTML = "字数上限：65535";
+	};
+	document.querySelector("#s_letter_length").innerHTML = "标记<font color=red> " + s_l_l +" 字</font> 文档长度 <font color=red>" + statistics_string(s_l).length + " 字</font> 实际字数 <font color=red> " + statistics_string_sonLetter(s_l).length + " 字</font>";
+},200);
+function statistics_string(s){
+	return s.replaceAll(new RegExp('<(\S*?)[^>]*>.*?|<.*? />','gim'),"");
+};
+function statistics_string_sonLetter(s){
+	s = statistics_string(s);
+	s = s.replaceAll("!","");
+	s = s.replaceAll("！","");
+	s = s.replaceAll(".","");
+	s = s.replaceAll("。","");
+	s = s.replaceAll(",","");
+	s = s.replaceAll("，","");
+	s = s.replaceAll(":","");
+	s = s.replaceAll("：","");
+	s = s.replaceAll("?","");
+	s = s.replaceAll("？","");
+	s = s.replaceAll("/","");
+	s = s.replaceAll(";","");
+	s = s.replaceAll("；","");
+	s = s.replaceAll("“","");
+	s = s.replaceAll("”","");
+	s = s.replaceAll("\"","");
+	s = s.replaceAll("{","");
+	s = s.replaceAll("}","");
+	s = s.replaceAll("[","");
+	s = s.replaceAll("]","");
+	s = s.replaceAll("\\","");
+	s = s.replaceAll("|","");
+	s = s.replaceAll("=","");
+	s = s.replaceAll("+","");
+	s = s.replaceAll("-","");
+	s = s.replaceAll("_","");
+	s = s.replaceAll(")","");
+	s = s.replaceAll("(","");
+	s = s.replaceAll("（","");
+	s = s.replaceAll("）","");
+	s = s.replaceAll("*","");
+	s = s.replaceAll("&","");
+	s = s.replaceAll(" ","");
+	s = s.replaceAll("	","");
+	s = s.replaceAll("^","");
+	s = s.replaceAll("%","");
+	s = s.replaceAll("$","");
+	s = s.replaceAll("￥","");
+	s = s.replaceAll("#","");
+	s = s.replaceAll("@","");
+	s = s.replaceAll("`","");
+	s = s.replaceAll("·","");
+	return s;
+};
+document.querySelectorAll(".text-edit-button").forEach(function(btn){
+	btn.addEventListener("click",function(e){
+		var jscmd = this.getAttribute("data-jscmd");
+		if (jscmd != null){
+			eval(jscmd);
+		};
+		e.preventDefault();
+		var command = this.getAttribute("data-command").split(",");
+		document.execCommand(command[0],false,command[1]);
+	});
+});
+function setdocFC(){
+	var color = document.querySelector("#color_box_fontColor").value;
+	document.execCommand("foreColor",false,color);
+};
+function setdocBC(){
+	var color = document.querySelector("#color_box_bkgColor").value;
+	document.execCommand("backColor",false,color);
+};
+function AsyncCallFunction(func,...arr){
+	func(arr);
+};
+setInterval(function(){
+	localStorage.fileContent = document.querySelector("#text").innerHTML;
+	var i = 0;
+	while (i < window.image_data.length){
+	try {
+		localStorage["data_image_" + i] = window.image_data[i];
+		localStorage.data_image_length = window.image_data.length;
+	} catch(e) {
+		window.image_data.splice(i,window.image_data.length);
+		refreshImageDisplay();
+	};
+		i++;
+	};
+},2000);
+</script>
