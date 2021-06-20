@@ -45,11 +45,11 @@ xhr.onload = function(){
 							document.querySelector("#memu").innerHTML = "错误：未取得索引";
 						} else {
 							if (ptr){
-								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr-1].id + " onclick=javascript:setTimeout(function(){location.reload();},200);>上一章</a>   ";
+								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr-1].id + " onclick=javascript:null>上一章</a>   ";
 							};
 							document.querySelector("#memu").innerHTML += "<a href=fiction#" + s + ">目录</a>   ";
 							if (index != info.length-1){
-								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr+1].id + " onclick=javascript:setTimeout(function(){location.reload();},200);>下一章</a>";
+								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr+1].id + " onclick=javascript:null>下一章</a>";
 							};
 						};
 						
