@@ -1,0 +1,25 @@
+<meta charset="utf-8">
+<title>好书推荐 | XF Website</title>
+<center><p style='font-size:2.5em'>好书推荐</p></center>
+<p id=table>正在加载......</p>
+<script>
+history.pushState({"info":"Virtual URL"},"Index | XF Website",location.origin + "/suggest");
+var str = "<table><tr><td>序列</td><td>书名</td><td>作者</td><td>状态</td></tr>";
+var xhr = new XMLHttpRequest();
+xhr.open("GET","files/fictions.json",true);
+xhr.send();
+xhr.onload = function(){
+	if (xhr.status >= 400){
+		document.querySelector("#table").innerHTML = "Error " + xhr.status + "<br>无法抓取文件";
+		return -1;
+	};
+	var info = JSON.parse(xhr.response);
+	var index = 0;
+	while (index < info.length){
+		str += "<tr><td>" + index + "</td><td>" + info[index].title + "</td><td>" + info[index].author + "</td><td>" + info[index].status + "</td>";
+		index++;
+	};
+	str += "</table>";
+	document.querySelector("#table").innerHTML = str;
+};
+</script>
