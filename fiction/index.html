@@ -1,0 +1,27 @@
+<meta charset="utf-8">
+<div id=monitor></div>
+<script>
+var hash = location.hash.substring(1);
+if (hash.indexOf("%") != -1)
+	hash = decodeURI(hash);
+document.querySelector("#monitor").innerHTML += "<title>" + hash + " | XF Website</title><div style=font-size:2.5em id=title>" + hash + "</div>";
+var xhr = new XMLHttpRequest();
+xhr.open("GET","../files/" + hash + ".json",true);
+xhr.send();
+xhr.onload = function(){
+	if (xhr.status >= 400){
+		document.querySelector("#monitor").innerHTML += "<center><h1>HTTP STATUS 404<hr>FX Website</h1></center>";
+		history.pushState({"info":"Virtual URL"},s + " | XF Website",location.origin + "/" + xhr.status);
+	};
+	var info = JSON.parse(xhr.response);
+	var index = 0;
+	var str = "<ul>";
+	while (index < info.length){
+		str += "<li><a href=view/#" + info[index].id + ">" + info[index].title + "</a></li>";
+		index++;
+	};
+	str += "</ul>";
+	document.querySelector("#monitor").innerHTML += str;
+	history.pushState({"info":"Virtual URL"},hash + " | XF Website",location.origin + "/fiction.asp?fiction=" + hash);	
+};
+</script>
