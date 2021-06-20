@@ -5,7 +5,7 @@
 var hash = location.hash.substring(1);
 if (hash.indexOf("%") != -1)
 	hash = decodeURI(hash);
-document.querySelector("#monitor").innerHTML += "<title>" + hash + " | XF Website</title><div style=font-size:2.5em id=title>" + hash + "</div>";
+document.querySelector("#monitor").innerHTML += "<title>" + hash + " | XF Website</title><div style=font-size:2.5em id=title>" + hash + "</div><br><a href=/>返回主页</a>";
 var xhr = new XMLHttpRequest();
 xhr.open("GET","../files/" + hash + ".json",true);
 xhr.send();
