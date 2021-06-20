@@ -2,6 +2,7 @@
 <div id=monitor></div>
 <script src=../jszip.js></script>
 <script src=../jszip-utils.js></script>
+<title>XF Website</title>
 <script>
 var hash = location.hash.substring(1);
 var xhr = new XMLHttpRequest();
@@ -11,6 +12,7 @@ xhr.send();
 xhr.onload = function(){
 	if (xhr.status >= 400){
 		document.querySelector("#monitor").innerHTML = "<center><h1>HTTP STATUS " + xhr.status + "<hr>FX Website</center>";
+		history.pushState({"info":"Virtual URL"},"XF Website",location.origin + "/" + xhr.status);
 	} else {
 		var zip = new JSZip();
 		zip.loadAsync(xhr.response).then(function(f){
