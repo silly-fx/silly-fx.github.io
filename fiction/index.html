@@ -11,8 +11,8 @@ xhr.open("GET","../files/" + hash + ".json",true);
 xhr.send();
 xhr.onload = function(){
 	if (xhr.status >= 400){
-		document.querySelector("#monitor").innerHTML += "<center><h1>HTTP STATUS 404<hr>FX Website</h1></center>";
-		history.pushState({"info":"Virtual URL"},s + " | XF Website",location.origin + "/" + xhr.status);
+		document.querySelector("#monitor").innerHTML = "<center><h1>HTTP STATUS 404<hr>FX Website</h1></center>";
+		history.pushState({"info":"Virtual URL"},"XF Website",location.origin + "/" + xhr.status);
 	};
 	var info = JSON.parse(xhr.response);
 	var index = 0;
