@@ -2,7 +2,7 @@
 <div id=monitor></div>
 <script src=../jszip.js></script>
 <script src=../jszip-utils.js></script>
-<title>XF Website</title>
+<title>FX Website</title>
 <script>
 var hash = location.hash.substring(1);
 var xhr = new XMLHttpRequest();
@@ -12,7 +12,7 @@ xhr.send();
 xhr.onload = function(){
 	if (xhr.status >= 400){
 		document.querySelector("#monitor").innerHTML = "<center><h1>HTTP STATUS " + xhr.status + "<hr>FX Website</center>";
-		history.pushState({"info":"Virtual URL"},"XF Website",location.origin + "/" + xhr.status);
+		history.pushState({"info":"Virtual URL"},"FX Website",location.origin + "/" + xhr.status);
 	} else {
 		var zip = new JSZip();
 		zip.loadAsync(xhr.response).then(function(f){
@@ -22,7 +22,7 @@ xhr.onload = function(){
 			});
 			f.file("fiction_title").async("string").then(function(s){
 				document.querySelector("#title").innerHTML = s;
-				document.querySelector("#monitor").innerHTML += "<title>" + s + " | XF Website</title>";
+				document.querySelector("#monitor").innerHTML += "<title>" + s + " | FX Website</title>";
 				var xhr2 = new XMLHttpRequest();
 				xhr2.open("GET","../files/" + s + ".json",true);
 				xhr2.responseType = "string";
@@ -55,7 +55,7 @@ xhr.onload = function(){
 						
 					};
 				};
-				history.pushState({"info":"Virtual URL"},s + " | XF Website",location.origin + "/fiction.asp?fiction=" + s + "&pid=" + hash + "");
+				history.pushState({"info":"Virtual URL"},s + " | FX Website",location.origin + "/fiction.asp?fiction=" + s + "&pid=" + hash + "");
 			});
 			f.file("p_title").async("string").then(function(s){
 				document.querySelector("#p_title").innerHTML = s;
