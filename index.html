@@ -16,7 +16,7 @@ xhr.onload = function(){
 	var info = JSON.parse(xhr.response);
 	var index = 0;
 	while (index < info.length){
-		str += "<tr><td>" + index + "</td><td><a href=fiction#" + info[index].title + ">" + info[index].title + "</a></td><td>" + info[index].author + "</td><td>" + info[index].status + "</td>";
+		str += "<tr><td>" + index + "</td><td><a href=fiction?" + info[index].title + ">" + info[index].title + "</a></td><td>" + info[index].author + "</td><td>" + info[index].status + "</td>";
 		index++;
 	};
 	str += "</table>";
