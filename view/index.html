@@ -4,7 +4,7 @@
 <script src=../jszip-utils.js></script>
 <title>FX Website</title>
 <script>
-var hash = location.hash.substring(1);
+var hash = location.search.substring(1);
 var xhr = new XMLHttpRequest();
 xhr.open("GET","../files/fiction_content/" + hash + ".zip",true);
 xhr.responseType = "blob";
@@ -47,9 +47,9 @@ xhr.onload = function(){
 							if (ptr){
 								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr-1].id + " onclick=javascript:null>上一章</a>   ";
 							};
-							document.querySelector("#memu").innerHTML += "<a href=fiction#" + s + ">目录</a>   ";
+							document.querySelector("#memu").innerHTML += "<a href=fiction?" + s + ">目录</a>   ";
 							if (index != info.length-1){
-								document.querySelector("#memu").innerHTML += "<a href=view#" + info[ptr+1].id + " onclick=javascript:null>下一章</a>";
+								document.querySelector("#memu").innerHTML += "<a href=view?" + info[ptr+1].id + " onclick=javascript:null>下一章</a>";
 							};
 						};
 						
