@@ -2,7 +2,7 @@
 <title>FX Website</title>
 <div id=monitor></div>
 <script>
-var hash = location.hash.substring(1);
+var hash = location.search.substring(1);
 if (hash.indexOf("%") != -1)
 	hash = decodeURI(hash);
 document.querySelector("#monitor").innerHTML += "<title>" + hash + " | FX Website</title><div style=font-size:2.5em id=title>" + hash + "</div><br><a href=/>返回主页</a>";
@@ -18,7 +18,7 @@ xhr.onload = function(){
 	var index = 0;
 	var str = "<ul>";
 	while (index < info.length){
-		str += "<li><a href=view/#" + info[index].id + ">" + info[index].title + "</a></li>";
+		str += "<li><a href=view/?" + info[index].id + ">" + info[index].title + "</a></li>";
 		index++;
 	};
 	str += "</ul>";
